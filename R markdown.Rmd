@@ -1,0 +1,127 @@
+---
+title: "Homework Coding Notes Markdown"
+author: "HP"
+date: "2026-02-19"
+output: html_document
+    toc: true
+ toc_float: true
+pdf_document:
+word_document:
+```{r}
+```{r example, fig.align='center'}
+#{r chunk_name, ...}
+
+#Global parameters
+#```{r setup, include=FALSE}
+#knitr::opts_chunk$set(echo = TRUE)
+#```
+
+```
+```
+
+
+                    
+```{r}
+data("mtcars")
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_smooth(method = lm, se = FALSE) +
+  geom_point(aes(color = wt)) +
+  xlab("Weight") + 
+  ylab("Miles per gallon") +
+  scale_colour_gradient(low = "forestgreen", high = "black")
+```
+
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+data("mtcars")
+ggplot(mtcars,aes(x=wt, y=mpg))+ geom_point()
+```
+
+```{r}
+
+```
+
+#R markdon formating options
+
+#first level header
+
+##second level header
+
+###third level header
+
+```{r}
+##Images
+![Shrek ggplot](shrek.jpg)
+```
+Section headers can be written after a number of pound signs, e.g.,
+
+# First-level header
+
+## Second-level header
+
+### Third-level header
+Style and emphasis
+`*italic*`
+italic
+
+`_italic_` 
+italic
+
+`**bold**` 
+bold
+
+`__bold__`
+bold
+
+Blockquotes are written after >, e.g.,
+```{r}
+install.packages("kable")
+library(kable)
+
+install.packages("knitr")
+library(knitr)
+
+kable(head(mtcars, n = 5), digits = 3, format = "markdown")
+
+```
+
+
+#### Unordered
+
+Unordered list items start with `*`, `-`, or `+`, and you can nest one
+list within another list by indenting the sub-list, e.g.,
+
+``` markdown
+- one item
+- one item
+- one item
+    - one more item
+    - one more item
+    - one more item
+```
+
+The output is:
+
+-   one item
+-   one item
+-   one item
+    -   one more item
+    -   one more item
+    -   one more item
+
+Ordered list items start with numbers (you can also nest lists within
+lists), e.g.,
+
+``` markdown
+1. the first item
+2. the second item
+3. the third item
+    - one unordered item
+    - one unordered item
+```
+
+
