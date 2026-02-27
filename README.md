@@ -1,23 +1,22 @@
 ## Coding Challenge 4
 
-[Click here to view the GitHub-flavored Markdown file for Coding Challenge 4](Coding%20Challenge%204/Coding-Challenge_4_Markdown.md)
+[my GitHub-flavored Markdown file for Coding Challenge 4](Coding%20Challenge%204/CodingChallenge4_Markdown.md)
 
-[File tree]
+##Filetree
 
-```text
+```
 .
 ├── Assignments-repository.Rproj
 ├── BacterialAlpha.csv
 ├── Bull_richness.csv
 ├── Coding Challenge 3.R
 ├── Coding Challenge 4
-│   ├── Coding-Challenge_4_Markdown.md
-│   ├── Coding-Challenge_4_Markdown.pdf
-│   └── Coding-Challenge_4_Markdown.Rmd
+│   ├── CodingChallenge4_Markdown.md
+│   ├── CodingChallenge4_Markdown.pdf
+│   └── CodingChallenge4_Markdown.Rmd
 ├── coding challenge assignment.R
 ├── Coding Challenges 2_data Visualization 1.R
-├── Coding Challenge_4_Markdown.Rmd
-├── Coding-Challenge_4_Markdown_files
+├── CodingChallenge4_Markdown_figure
 │   └── figure-gfm
 │       ├── unnamed-chunk-2-1.png
 │       ├── unnamed-chunk-3-1.png
@@ -35,3 +34,4 @@
 ├── README.md
 └── TipsR.csv
 
+```
