@@ -9,6 +9,7 @@ output:
     toc: true
     number_sections: true
 ---
+
 [Noel et al. 2022, Plant Disease Paper](https://doi.org/10.1094/PDIS-06-21-1253-RE)
 
 # Question 1
@@ -126,7 +127,7 @@ Combined_pwc
 ```
 
 # Question5 
-[README]
+README
 
-#Question 6
-[Github]
+# Question 6
+Github
