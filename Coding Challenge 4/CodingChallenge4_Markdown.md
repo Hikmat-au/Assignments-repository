@@ -1,6 +1,9 @@
 [Noel et al. 2022, Plant Disease
 Paper](https://doi.org/10.1094/PDIS-06-21-1253-RE)
 
+my Github repository:
+<https://github.com/Hikmat-au/Assignments-repository>
+
 # Question 1
 
 **YAML** The YAML header is the section at the top of the R Markdown
@@ -104,7 +107,7 @@ Plot1
     ## Warning: Removed 8 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](Coding-Challenge_4_Markdown_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](CodingChallenge4_Markdown_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 # Plot X15ADON
 
@@ -126,7 +129,7 @@ Plot2
     ## Warning: Removed 10 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](Coding-Challenge_4_Markdown_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](CodingChallenge4_Markdown_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 # SeedMass
 
@@ -150,7 +153,7 @@ Plot3
     ## Warning: Removed 2 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](Coding-Challenge_4_Markdown_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](CodingChallenge4_Markdown_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 \#3Combined_PLOT
 
@@ -189,7 +192,7 @@ figure=ggarrange(Plot1,Plot2,Plot3,labels = c("A", "B", "C"),nrow = 1,ncol = 3,c
 figure
 ```
 
-![](Coding-Challenge_4_Markdown_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](CodingChallenge4_Markdown_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 \#Combined_with_pairwisecomparison
 
 ``` r
@@ -210,7 +213,7 @@ Plot1_pwc
     ## Warning: Removed 8 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](Coding-Challenge_4_Markdown_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](CodingChallenge4_Markdown_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 ##Plot 2: plot2 with pairwise comparisons
@@ -230,7 +233,7 @@ Plot2_pwc
     ## Warning: Removed 10 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](Coding-Challenge_4_Markdown_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
+![](CodingChallenge4_Markdown_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
 
 ``` r
 ##Plot 3: plot3 with pairwise comparisons
@@ -249,7 +252,7 @@ Plot3_pwc
     ## Warning: Removed 2 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-![](Coding-Challenge_4_Markdown_files/figure-gfm/unnamed-chunk-6-3.png)<!-- -->
+![](CodingChallenge4_Markdown_files/figure-gfm/unnamed-chunk-6-3.png)<!-- -->
 
 ``` r
 #Combine all three plots with a common legend ----
@@ -296,7 +299,7 @@ Combined_pwc =ggarrange(Plot1_pwc,Plot2_pwc,Plot3_pwc,labels = c("D", "E", "F"),
 Combined_pwc
 ```
 
-![](Coding-Challenge_4_Markdown_files/figure-gfm/unnamed-chunk-6-4.png)<!-- -->
+![](CodingChallenge4_Markdown_files/figure-gfm/unnamed-chunk-6-4.png)<!-- -->
 
 # Question5
 
@@ -304,4 +307,5 @@ README
 
 # Question 6
 
-Github
+Github my Github repository:
+<https://github.com/Hikmat-au/Assignments-repository>

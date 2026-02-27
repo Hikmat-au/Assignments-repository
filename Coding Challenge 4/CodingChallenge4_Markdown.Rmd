@@ -1,7 +1,7 @@
 ---
-title: "Coding_Challenge_4_Markdown"
+title: "CodingChallenge4_Markdown"
 author: "Hikmat Paudel"
-date: "2026-02-26"
+date: "2026-02-27"
 output:
   md_document:
     variant: gfm
@@ -11,6 +11,8 @@ output:
 ---
 
 [Noel et al. 2022, Plant Disease Paper](https://doi.org/10.1094/PDIS-06-21-1253-RE)
+
+my Github repository: https://github.com/Hikmat-au/Assignments-repository
 
 # Question 1
 
@@ -130,4 +132,5 @@ Combined_pwc
 README
 
 # Question 6
-Github
+Github 
+my Github repository: https://github.com/Hikmat-au/Assignments-repository
