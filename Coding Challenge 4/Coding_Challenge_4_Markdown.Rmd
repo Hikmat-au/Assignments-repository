@@ -1,27 +1,27 @@
 ---
-title: "Coding Challenge 4_Markdown"
-author: "Hikmat"
+title: "Coding_Challenge_4_Markdown"
+author: "Hikmat Paudel"
 date: "2026-02-26"
-output:  
+output:
   md_document:
     variant: gfm
   pdf_document:
     toc: true
     number_sections: true
 ---
+[Noel et al. 2022, Plant Disease Paper](https://doi.org/10.1094/PDIS-06-21-1253-RE)
 
 # Question 1
 
-**YAML
+**YAML**
 The YAML header is the section at the top of the R Markdown file enclosed by ---. It contains data about title, author name, date of markdown creation, output format and table of contents.
 
-**Literate Programming
+**Literate Programming**
 Literate programming is a style where you write code and explanations together in the same document.  
 This helps readers understand why we wrote the code, not just what the code does.
 
 # Question2a
--[PaperLink]https://doi.org/10.1094/PDIS-06-21-1253-RE
-
+paperlink: (https://doi.org/10.1094/PDIS-06-21-1253-RE)
 
 # Question2b
 ```{r load data}
@@ -91,7 +91,8 @@ Plot3
 library(ggpubr)
 
 
-figure=ggarrange(Plot1,Plot2,Plot3,labels = c("A", "B", "C"),nrow = 1,ncol = 3, common.legend=TRUE)
+figure=ggarrange(Plot1,Plot2,Plot3,labels = c("A", "B", "C"),nrow = 1,ncol = 3,common.legend=TRUE)
+
 figure
 ```
 #Combined_with_pairwisecomparison
@@ -125,9 +126,7 @@ Combined_pwc
 ```
 
 # Question5 
-README- https://github.com/Hikmat-au/Assignments-repository/blob/main/Coding%20Challenge4/Coding-challenge-4.md)
+[README]
 
-# Question6
-Github- https://github.com/Hikmat-au/Assignments-repository/tree/main/Coding%20Challenge4()
-
-
+#Question 6
+[Github]
