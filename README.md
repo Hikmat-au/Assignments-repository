@@ -3,7 +3,6 @@
 [my GitHub-flavored Markdown file for Coding Challenge 4](Coding%20Challenge%204/CodingChallenge4_Markdown.md)
 
 ##Filetree
-
 ```
 .
 ├── Assignments-repository.Rproj
@@ -33,5 +32,4 @@
 ├── R markdown.Rmd
 ├── README.md
 └── TipsR.csv
-
 ```
