@@ -1,20 +1,19 @@
 ---
-title: "Data Wrangling_Homework"
+title: "Homework_ Data Wrangling"
 author: "Hikmat Paudel"
-date: "March 04, 2026"
-output:
-  pdf_document:
+date: "2026-03-05"
+output: pdf_document:
+    md_document:
+    variant: gfm
     toc: true
     number_sections: true
-  md_document:
-    variant: gfm
 ---
 
-## Seamless data wrangling 
+## Seemless data wrangling 
 
 The tidyverse is a bunch of packages and functions written by the same folks that manage Rstudio. The tidyverse builds upon base R to allow for easier use of large datasets. 
 
-If you do not have the tidyverse installed please install it and load it `install.packages("tidyverse")`
+If you do not have the tidyverse installed please install it and load it `install.pakcages("tidyverse")`
 
 ```{r}
 library(tidyverse)
@@ -52,7 +51,7 @@ Lets start exploring the data.
 
 Sometimes you may want to only select certain columns of your data. This is accomplished with the select function.. 
 
-## select()
+#### select()
 ```{r}
 microbiome.fungi2 <- select(microbiome.fungi, SampleID, Crop, Compartment:Fungicide, richness)
 str(microbiome.fungi2)
@@ -60,7 +59,7 @@ str(microbiome.fungi2)
 
 Note the syntax. I listed all the column headers I wanted, but at the end I used `Compartment:Fungicide` because all these were in order and I can use the column to select them all. 
 
-## filter()
+#### filter()
 
 This is a convenient function that allows you to subset data fairly easily. However, I'm not sure how its much easier than other subset function
 ```{r}
@@ -73,7 +72,7 @@ head(filter(microbiome.fungi2, Treatment == "Conv." & Fungicide == "C"))
 head(filter(microbiome.fungi2, Sample == "A" | Sample == "B")) # samples A or B
 ```
 
-## mutate()
+#### mutate()
 
 Mutate allows us to quickly create new columns. 
 ```{r}
@@ -85,7 +84,7 @@ head(mutate(microbiome.fungi2, logRich = log(richness)))
 head(mutate(microbiome.fungi2, Crop_Treatment = paste(Crop, Treatment)))
 ```
 
-## the pipe 
+#### the pipe 
 
 We can also combine multiple functions together. This is an important concept and is very powerful. It helps to try to visualize what you are doing to your data at each step. Basically the pipe allows you to input the previous data from the right side of the pipe into the function on the left (or next line).
 
@@ -105,7 +104,7 @@ microbiome.fungi %>%
   head() # displaying the first six rows
 ```
 
-## summarise()
+#### summarise()
 We can use the `summarise()` function to find things like means and standard deviations/errors. 
 ```{r}
 microbiome.fungi %>%
@@ -139,7 +138,7 @@ microbiome.fungi %>%
   mutate(std.err = sd.dev/sqrt(n))
 ```
 
-## Connecting to plotting
+#### Connecting to plotting
 
 These groups of functions and packages also all work together very nicely. For example, direct input into ggplot is possible. In which case you would not have to enter the data statement, you just need to start inputing your aesthetics.
 ```{r}
@@ -160,7 +159,7 @@ plot1 <- microbiome.fungi %>%
   facet_wrap(~Treatment)
 ```
 
-## Joining 
+#### Joining 
 
 The join group of functions are super useful. Have you ever tried to match up data by rows based on some criteria? Its almost impossible without messing up over 10-15 rows of data. 
 
@@ -198,7 +197,7 @@ head(left_join(metadata, richness, by = "SampleID")) # adding the richness data 
 
 Now this is kind of a silly example because we already had the data set joined how we wanted it and split it apart. But you can imagine if you have two separate data sets with one column in common and you wanted to combine them into one, instead of taking days to do this by hand you could simply load into R and do it. 
 
-## Pivoting
+#### Pivoting
 
 Pivoting is also useful for converting from wide to long format and back again. We can do this with `pivot_longer()` and `pivot_wider()`
 
@@ -245,4 +244,6 @@ microbiome.fungi %>%
   xlab("") +
   ylab("Difference in average species richness")
 ```
+---
+
 
