@@ -1,0 +1,75 @@
+---
+title: "Coding Challenge 5_Data Wrangling"
+author: "Hikmat Paudel"
+date: "2026-03-05"
+output:
+  pdf_document:
+    toc: true
+    number_sections: true
+  md_document:
+    variant: gfm
+---
+# Question 1 - Downloading and reading two csv files
+
+```{r}
+getwd()
+library(tidyverse)
+diversity<- read.csv("DiversityData.csv")
+str(diversity)
+metadata<- read.csv("Metadata.csv")
+str(metadata)
+```
+
+# Question 2 - Joining the two dataframes together and creating a new dataframe named alpha
+
+```{r}
+library(dplyr)
+alpha<-left_join(diversity, metadata, by="Code")
+alpha
+```
+
+# Question 3 - Calculate Pielou’s evenness index
+
+```{r}
+alpha_even <- alpha %>%
+  mutate(even = shannon / log(richness))
+alpha_even
+```
+
+# Question 4 - Using tidyverse language of functions and the pipe
+```{r}
+library(tidyverse)
+alpha_average <- alpha_even %>%
+  group_by(Crop, Time_Point) %>%
+  summarise(mean.even = mean(even, na.rm = TRUE),count = n(),sd.even = sd(even, na.rm = TRUE),se.even = sd.even / sqrt(count))
+alpha_average
+```
+
+# Question 5 -  Calculating difference between soybean column,soil column, and between cotton column and soil column
+```{r}
+alpha_average2 <- alpha_average %>%
+  select(Time_Point, Crop, mean.even) %>%
+  pivot_wider(names_from = Crop,values_from = mean.even) %>%
+  mutate(diff.cotton.even = Soil - Cotton,diff.soybean.even = Soil - Soybean)
+alpha_average2
+```
+
+# Question 6 - Connecting it to plots
+```{r}
+library(tidyr)
+library(ggplot2)
+
+alpha_plot_long <- alpha_average2 %>%
+  select(Time_Point, diff.cotton.even, diff.soybean.even) %>%
+  pivot_longer(cols = c(diff.cotton.even, diff.soybean.even),names_to = "diff",values_to = "values")
+
+plot<-ggplot(alpha_plot_long, aes(x = Time_Point, y = values, color = diff)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  labs(x = "Time Point",y = "Evenness Difference",color = "Difference Type") +
+  theme_minimal()
+print(plot)
+```
+
+# Question 7 - My github assignment repository
+https://github.com/Hikmat-au/Assignments-repository
