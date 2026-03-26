@@ -3,10 +3,10 @@ title: "Codding Challenge 6"
 author: "Hikmat Paudel"
 date: "2026-03-26"
 output:
-  pdf_document:
-    toc: true
   md_document:
     variant: gfm
+  pdf_document:
+    toc: true
   html_document:
     df_print: paged
   word_document:
@@ -94,4 +94,4 @@ for (i in 1:nrow(Cities)) {
 print(distance_df)
 ```
 # Question 8 (Github)
-[CodingChallenge6]https://github.com/Hikmat-au/Assignments-repository 
+[CodingChallenge6]https://github.com/Hikmat-au/Assignments-repository/tree/main/Coding%20Challenge%206
