@@ -1,0 +1,254 @@
+---
+title: "Homework-Linear Models"
+author: "Hikmat Paudel"
+date: "2026-03-26"
+output: 
+  pdf_document:
+    toc: true
+  md_document:
+    variant: gfm
+  html_document:
+    df_print: paged
+  word_document:
+---
+
+```{r}
+if (!require(multcompView)) {
+  install.packages("multcompView")
+  library(multcompView)}
+library(tidyverse)
+library(lme4)
+library(emmeans)
+library(multcomp)
+library(multcompView)
+```
+
+
+# Introduction to regression analysis in R
+```{r}
+data("mtcars")
+```
+
+# Plot
+```{r}
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_smooth(method = lm, se = FALSE, color = "grey") +
+  geom_point(aes(color = wt)) +
+  xlab("Weight") + 
+  ylab("Miles per gallon") +
+  scale_colour_gradient(low = "forestgreen", high = "black") +
+  theme_classic()
+```
+The simplest way to do this is with the function lm()
+
+```{r}
+lm(mpg~wt, data = mtcars)
+summary(lm(mpg~wt, data = mtcars)) # for summary of this linear output
+anova(lm(mpg~wt, data = mtcars)) # for ANOVA table
+cor.test(mtcars$wt, mtcars$mpg) # to view correlation
+```
+
+# Assumptions
+
+In general there are several assumptions in a regression, linear model, ANOVA, whatever you want to call it. 
+
+They are: 
+  - y is continuous 
+  - error is normally distributed 
+  - relationship is linear 
+  - homoskedasticity - sigma is consistent 
+  - independent samples 
+  
+
+In our example above we can simply get the residuals from our linear model like this
+```{r}
+model <- lm(mpg~wt, data = mtcars)
+
+ggplot(model, aes(y = .resid, x = .fitted)) +
+  geom_point() +
+  geom_hline(yintercept = 0)
+```
+
+# Categorical variables
+
+If we have a categorial x variable and a continuous y variable we would perform a t-test. 
+
+bull richness dataset. 
+```{r}
+bull.rich <- read.csv("Bull_richness.csv")
+```
+
+Filter our dataset to include one treatment and growth stage for demonstration of a t-test.
+```{r}
+bull.rich %>%
+  filter(GrowthStage == "V8" & Treatment == "Conv.") %>%
+  ggplot(aes(x = Fungicide, y = richness)) + 
+  geom_boxplot()
+```
+It looks like there is a difference, to find out we can do a t-test
+
+Where the null hypothesis is that there is no difference in group means
+```{r}
+bull.rich.sub <- bull.rich %>%
+  filter(GrowthStage == "V8" & Treatment == "Conv.")
+
+t.test(richness~Fungicide, data = bull.rich.sub)
+```
+# t-test is a regression
+We can plug this into our linear model and get the same results. 
+```{r}
+t.test(richness~Fungicide, data = bull.rich.sub, var.equal = TRUE)
+
+summary(lm(richness~Fungicide, data = bull.rich.sub))
+anova(lm(richness~Fungicide, data = bull.rich.sub))
+```
+
+Assuming equal variance in groups and performing a two-sample t-test is the same result as a linear model and ANOVA on the linear model. The p-value tells us that the slope of the line is different than 0.
+
+
+# ANOVAs
+
+```{r}
+bull.rich.sub2 <- bull.rich %>%
+  filter(Fungicide == "C" & Treatment == "Conv." & Crop == "Corn")
+```
+
+Lets visualize our data
+```{r}
+bull.rich.sub2$GrowthStage <- factor(bull.rich.sub2$GrowthStage, levels = c("V6", "V8", "V15"))
+
+ggplot(bull.rich.sub2, aes(x = GrowthStage, y = richness)) +
+  geom_boxplot()
+```
+
+lets do the actual test. 
+
+Set up the linear model and run various ANOVAs... holy smokes they all have the same information. Thats because an ANOVA is a regression!
+```{r}
+lm.growth <- lm(richness ~ GrowthStage, data = bull.rich.sub2)
+summary(lm.growth)
+anova(lm.growth)
+summary(aov(richness ~ GrowthStage, data = bull.rich.sub2))
+```
+
+To know which group is different.
+
+We can do post-hoc tests to find out. The simplest way to think of this is individual t-tests across groups. The most versitile way to do this is with the packages `emmeans`, and `multcomp`. 
+
+The lsmeans are the least squared means - they are the means estimated by the linear model. This is in contrast to the arethmatic means which are the means calculated or the average. 
+```{r}
+lsmeans <- emmeans(lm.growth, ~GrowthStage) # estimate lsmeans of variety within siteXyear
+Results_lsmeans <- cld(lsmeans, alpha = 0.05, reversed = TRUE, details = TRUE) # contrast with Tukey ajustment by default. 
+Results_lsmeans
+```
+
+
+# Interaction terms
+
+
+We can do this within a linear model as well using the `*` between factors. 
+
+Lets filter our dataset to include fungicide term. 
+```{r}
+bull.rich.sub3 <- bull.rich %>%
+  filter(Treatment == "Conv." & Crop == "Corn")
+
+bull.rich.sub3$GrowthStage <- factor(bull.rich.sub3$GrowthStage, levels = c("V6", "V8", "V15"))
+```
+
+Setup linear model with fungicide interaction factor
+```{r}
+lm.inter <- lm(richness ~ GrowthStage + Fungicide + GrowthStage:Fungicide, data = bull.rich.sub3)
+
+# or this
+lm(richness ~ GrowthStage*Fungicide, data = bull.rich.sub3)
+```
+
+Overall if we look at the summary we can see that there are significant terms and the overall p value is significant. If we want to look at the ANOVA table we can do this. 
+```{r}
+summary(lm.inter) # significant terms
+anova(lm.inter) # The interaction term is signifant. 
+```
+
+So the interaction term is significant. In general you want to look at the most complex interaction that is significant and look at that first. But this means that the effect of fungicide is dependent on the growthstage, or in other words at least one comparison of  fungicide within growthstage or growthstage within fungicide is significant. 
+
+For this study we more care about the effect of fungicide over the levels of growthstage so we can plot that easily. 
+```{r}
+bull.rich.sub3 %>%
+  ggplot(aes(x = GrowthStage, y = richness, fill = Fungicide)) +
+  geom_boxplot()
+```
+
+So by visualization we can see that it looks like V8 fungicide affected richness more than others and by V15 they recovered. 
+
+But how do we know? In this case we have to do a post-hoc test within the levels of growthstage. 
+```{r}
+lsmeans <- emmeans(lm.inter, ~Fungicide|GrowthStage) # estimate lsmeans of variety within siteXyear
+Results_lsmeans <- cld(lsmeans, alpha = 0.05, reversed = TRUE, details = TRUE) # contrast with Tukey ajustment
+Results_lsmeans
+```
+
+
+# Mixed effects models
+
+In mixed effects models we have fixed and random effects term. The random effects term is something that affects the variation in y. A fixed effect is something that affects the mean of y. There are NO rules that determine what is a fixed or random effect. You have to justify that in your experimental design. Another way to think about this would be factors that you do not really care about them affecting the mean, but still want to account for that variation in your model so you can generalize over that factor. A common way that random effects are included in experimental designs is called the blocking factor. 
+
+However, there are common fixed and random effects that will apply to folks in this class.
+
+Common fixed effects
+
+  - Treatment
+  - Species
+  - gene
+  
+Common random effects (blocking factor)
+
+  - Year
+  - replicate 
+  - trial 
+  - Individuals
+  - Fields
+  
+Lets see some random effects models in action. 
+
+Lets use our interaction model from above. 
+```{r}
+lme0 <- lm(richness ~ GrowthStage*Fungicide, data = bull.rich.sub3)
+```
+
+How do we include a random effect in this? Well... first we have to use a different package, and for this we are going to use the package lme4. 
+```{r}
+lme1 <- lmer(richness ~ GrowthStage*Fungicide + (1|Rep), data = bull.rich.sub3)
+summary(lme1)
+```
+
+Here we are including the between replicate variation (spatial field variation) as an error term and estimate the sigma (standard deviation) due to the error associated with Rep. 
+
+What does this actually do? Well lets look at what it does to our Betas in our original model. 
+```{r}
+summary(lme0)
+summary(lme1)
+```
+
+For some terms it actually makes the standard error of our betas go down, which means we have better estimates of our betas and we are more confident that we are estimating them correctly in our linear models, which means we have more power to detect differences. 
+
+How can we test if there is a significan random effect? Well we can do an ANOVA between the two models.
+```{r}
+anova(lme1,lme0)
+```
+
+In this case the Rep random variable does not significantly improve the fit of the model and therefore you may conclude that you can go with the simpler model lme0. But it also does not hurt with the random term in there. 
+
+What if we gave it a different random factor like Growth Stage? We know that GrowthStage significanlty altered the mean and there was an interaction between growth stage and fungal richness. So, logically it doesn't make sense to include it as a random factor. But we could, the model would still be valid. 
+```{r}
+lm1 <- lm(richness ~ Fungicide, data = bull.rich.sub3)
+lme2 <- lmer(richness ~ Fungicide + (1|GrowthStage), data = bull.rich.sub3)
+
+summary(lm1)
+summary(lme2)
+
+anova(lme2, lm1)
+```
+
+So, in this case we took something that probably should be a fixed effect and included it as a random effect. We still have a significant result, but modeling the random effect means that we are better able to estimate the betas. When we do an anova between the two models it is significant meaning that the within growthstage variation is important.
+
