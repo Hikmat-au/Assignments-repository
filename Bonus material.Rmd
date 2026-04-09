@@ -1,0 +1,194 @@
+---
+title: "Bonus Question"
+author: "Hikmat Paudel"
+date: "2026-04-09"
+output:
+  word_document: default
+  md_document: default
+  pdf_document: default
+---
+
+# 1. Recap Material
+ 
+Give me notes on the recap material. These questions focus on material that students commonly struggle with (data wrangling, plotting, modeling, or debugging).
+
+##Data Wrangling (dplyr)
+
+Data wrangling is the process of preparing and transforming raw data into a useful format. The `dplyr` package provides several important functions:
+
+- `select()` is used to choose specific columns  
+- `filter()` extracts rows based on conditions  
+- `mutate()` creates or modifies variables  
+- `summarise()` calculates summary statistics  
+- `group_by()` groups the data before summarizing  
+
+It is important to always check column names and ensure variables have the correct data types before performing operations.
+
+Example
+
+```{r}
+library(dplyr)
+
+# Create example dataset
+df <- data.frame(
+  year = c(2025, 2025, 2024, 2025),
+  treatment = c("A", "B", "A", "B"),
+  yield = c(10, 15, 8, 20),
+  rep1 = c(5,6,4,7),
+  rep2 = c(7,5,6,8)
+)
+
+# Perform filtering, grouping, and summarizing
+data_summary <- df %>%
+  filter(year == 2025) %>%
+  group_by(treatment) %>%
+  summarise(mean_yield = mean(yield, na.rm = TRUE))
+
+# Show results
+data_summary
+```
+
+Common Mistakes
+Using summarise() without grouping first
+Incorrect or misspelled column names
+Treating categorical variables as numeric
+
+##Plotting (ggplot2)
+The ggplot2 package is used to create visualizations. A basic plot structure looks like this:
+
+```{r}
+library(ggplot2)
+
+# Scatter plot with real columns
+ggplot(df, aes(x = year, y = yield)) +
+  geom_point() +
+  theme_classic()
+```
+Common layers include:
+geom_point() for scatterplots
+geom_line() for line graphs
+geom_bar(stat = "identity") for bar charts
+facet_wrap() for multiple panels
+theme_classic() for a simple design
+
+Example
+```{r}
+ggplot(df, aes(x = treatment, y = yield)) +
+  geom_boxplot() +
+  theme_classic()
+```
+
+Common Mistakes
+Incorrect placement of variables inside/outside aes()
+Forgetting to use + between layers
+Using wrong variable names
+Plotting unsummarized data incorrectly
+
+##Linear Modeling
+Linear models are used to study relationships between variables.
+
+Examples
+```{r}
+model <- lm(yield ~ treatment, data = df)
+summary(model)
+```
+
+Important Outputs
+Estimate: shows the effect size
+p-value: indicates statistical significance
+R-squared: measures model fit
+Residuals: show prediction errors
+
+Prediction
+```{r}
+predict(model)
+```
+
+Common Mistakes
+Mixing up predictor and response variables
+Not converting categorical variables into factors
+Ignoring missing values in the dataset
+
+##Debugging
+Debugging helps identify and fix errors in code. Useful strategies include:
+Carefully reading error messages
+Running code step-by-step
+Checking object and variable names
+Verifying parentheses and commas
+Inspecting data using str() and names()
+
+Example
+```{r}
+str(df)
+names(df)
+```
+
+# 2. Extra Topic Exploration
+
+Complete one of the extra optional materials provided, OR explore a topic of your choice, or find a topic online and explore the code and how it works.
+
+I explored the pivot_longer() function from the tidyr package, which is used to reshape data from wide format into long format. This is especially useful when preparing data for visualization and analysis.
+
+Example
+
+```{r}
+library(tidyr)
+
+long_df <- df %>%
+  pivot_longer(
+    cols = starts_with("rep"),
+    names_to = "replicate",
+    values_to = "value")
+
+long_df
+```
+
+Why It Is Useful
+Makes plotting easier
+Simplifies grouping and summarizing
+Helps maintain a tidy data structure
+
+Justification
+I chose this topic because reshaping data is an important step in many analyses. I wanted to better understand how to organize datasets in a way that works efficiently with visualization and modeling tools. This will help me work with more complex datasets in the future.
+
+# 3. Introduction to renv
+
+Follow the coding demonstration in class. Turn in notes.
+
+## renv Notes
+
+**Purpose:**
+- Creates reproducible R environments  
+- Keeps track of package versions  
+- Helps others run the same code without issues  
+
+## Initialize Project
+
+```{r}
+install.packages("renv")
+renv::init()
+```
+Install Packages
+```{r}
+install.packages("dplyr")
+```
+Save Environment
+```{r}
+renv::snapshot()
+```
+Restore Environment
+```{r}
+renv::restore()
+```
+
+Files Created
+renv.lock → stores package version details
+renv/ folder → contains the project library
+
+Why It Is Important
+Ensures results can be reproduced
+Avoids conflicts between package versions
+Makes it easier to share projects with others
+
+
+
